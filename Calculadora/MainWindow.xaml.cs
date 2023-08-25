@@ -311,28 +311,24 @@ namespace Calculadora
         }
 
         private int clearButtonClickCount = 0;
-        private const int secretClickThreshold = 30;
 
         private void GlobalButton_Click(object sender, RoutedEventArgs e)
         {
-            if (e.OriginalSource is Button clickedButton)
-            {
-                if (clickedButton.Name.StartsWith("ClearBtn"))
-                {
-                    clearButtonClickCount++;
 
-                    if (clearButtonClickCount == secretClickThreshold)
-                    {
-                       
-                        MessageBox.Show("Easter egg encontrado!");
-                        ErrorCycle("https://www.youtube.com/watch?v=JpUfO0fq2ps&ab_channel=DJKALVINCHEFE%F0%9F%A4%91%F0%9F%A4%91");
-                    }
-                }
-                else
-                {
-                    clearButtonClickCount = 0; 
-                }
+            if (e.OriginalSource is not Button button) return;
+
+            if(!button.Name.StartsWith("ClearBtn"))
+            {
+                clearButtonClickCount = 0;
+                return;
             }
+
+            clearButtonClickCount++;
+            if (clearButtonClickCount < 30) return;
+
+            MessageBox.Show("Easter egg encontrado!");
+            clearButtonClickCount = 0;
+            ErrorCycle("https://www.youtube.com/watch?v=JpUfO0fq2ps&ab_channel=DJKALVINCHEFE%F0%9F%A4%91%F0%9F%A4%91");
         }
     }
 }
